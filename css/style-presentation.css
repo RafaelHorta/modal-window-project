@@ -1,0 +1,24 @@
+*, *::after, *::before { box-sizing: border-box; }
+body { font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; }
+
+/* -- -- -- Forms -- -- -- */
+
+.form { max-width: 550px; }
+.form .input { margin-bottom: 20px; }
+.input {
+    width: 100%;
+    padding: 10px;
+}
+
+/* -- -- -- Buttons -- -- -- */
+
+.btn {
+    background-color: #4d41bd;
+    color: #a1a8d4;
+    text-align: center;
+    padding: 10px 15px;
+    text-decoration: none;
+    border: none;
+    border-radius: 3px;
+}
+.btn:hover { background-color: #6266d3; }

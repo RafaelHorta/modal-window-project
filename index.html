@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Windows</title>
+    <script src="https://kit.fontawesome.com/c09e71b037.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="css/style-presentation.css">
+    <link rel="stylesheet" type="text/css" href="css/style-modals.min.css">
+</head>
+<body>
+    <div>
+        <button type="button" class="btn" modal="normal">Modal Window Normal</button>
+        <button type="button" class="btn" modal="normal-dark">Modal Window Normal Dark</button>
+        <button type="button" class="btn" modal="html-content">Modal Window HTML</button>
+        <button type="button" class="btn" modal="html-content-dark">Modal Window HTML Dark</button>
+        <a href="#" class="btn" modal="link">Modal Window Link</a>
+    </div>
+    <template id="tmp-form">
+        <form class="form" autocomplete="off">
+            <div>
+                <input type="text" name="name" placeholder="Your Name" class="input">
+            </div>
+            <div>
+                <input type="text" name="lastname" placeholder="Your Lastname" class="input">
+            </div>
+            <div>
+                <input type="email" name="email" placeholder="Your E-mail" class="input">
+            </div>
+            <div>
+                <input type="password" name="password" placeholder="Your Password" class="input">
+            </div>
+            <div>
+                <select name="sleectt" class="input">
+                    <option value="">Select 1</option>
+                    <option value="">Select 2</option>
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-success">Send</button>
+            </div>
+        </form>
+    </template>
+    <script src="./js/index.js" type="module"></script>
+</body>
+</html>
