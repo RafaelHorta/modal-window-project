@@ -1,13 +1,43 @@
 # Modal Window Project
 Small script that adds simple modal windows with light and dark themes
 
-## How use
+## Installing
+
+#### CSS styles
+
+Can use minify file
+
+```html
+<link rel="stylesheet" type="text/css" href="..path../css/style-modals.min.css">
+```
+
+Or
+
+```html
+<link rel="stylesheet" type="text/css" href="..path../css/style-modals.css">
+```
+
 #### Import
 
+Can use minify file
+
 ```javascript
-import nameModule from "./path/modals.js";
+import nameModule from "./..path../modals.min.js";
+```
+
+Or
+
+```javascript
+import nameModule from "./..path../modals.js";
+```
+
+Can then create a variable to make it easier to call functions
+
+```javascript
 const name = nameModule();
 ```
+
+## How use
 
 #### Using functions
 
