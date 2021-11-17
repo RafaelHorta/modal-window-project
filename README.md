@@ -2,14 +2,14 @@
 Small script that adds simple modal windows with light and dark themes
 
 ## How use
-##### Import
+#### Import
 
 ```javascript
-import nameModule from "./modals.js";
+import nameModule from "./path/modals.js";
 const name = nameModule();
 ```
 
-##### Using functions
+#### Using functions
 
 * `setModal()` creates the event that calls the modal window when an element of the HTML containing the `modal` attribute is clicked
 ```HTML
@@ -19,7 +19,6 @@ const name = nameModule();
 ```javascript
 name.setModal('button-modal-1', 'set-modal-window-id', {
 	title: 'modal window title',
-	dark: true,
 	content: 'modal window content',
 	ok: {
 		text: 'Text that is printed on the ok button',
@@ -36,7 +35,6 @@ name.setModal('button-modal-1', 'set-modal-window-id', {
 ```javascript
 name.openModal('set-modal-window-id', {
 	title: 'modal window title',
-	dark: true,
 	content: 'modal window content',
 	ok: {
 		text: 'Text that is printed on the ok button',
@@ -54,9 +52,9 @@ name.openModal('set-modal-window-id', {
 name.closeModal('modal-window-id');
 ```
 
-##### Dark theme
+#### Dark theme
 
-Add **"dark"** attribute with **true** value inside object parameter in function `setModal()` or `openModal()`
+Add **"dark"** element with **true** value inside object parameter in function `setModal()` or `openModal()`
 
 ```javascript
 name.openModal('set-modal-window-id', {
@@ -65,3 +63,8 @@ name.openModal('set-modal-window-id', {
 	content: ''
 });
 ```
+
+#### NOTES
+
+* The element **"content"** can insert HTML
+* It is necessary to insert at least one element of the object (title, dark, content, ok, cancel)
