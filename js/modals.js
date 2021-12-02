@@ -92,7 +92,7 @@ export default function() {
 
         // - - - Open Modal - - -
 
-        openModal(modalName, {title, dark, content, ok, cancel}) {
+        openModal(modalName, {title, dark, content, ok, cancel, callback}) {
             if (document.getElementById("modal-" + modalName) == null) {
                 createModal(modalName, title, dark, content, ok, cancel);
             }
@@ -102,6 +102,7 @@ export default function() {
             handler.status = true;
             if (ok != null && ok.callback != null) { handler.ok = ok.callback; }
             if (cancel != null && cancel.callback != null) { handler.cancel = cancel.callback; }
+            if (callback != null) { callback(); }
 
             $idModal.style.visibility = "visible";
 
@@ -112,7 +113,7 @@ export default function() {
 
         // - - - Set Modal - - -
 
-        setModal(btnElement, modalName, {title, dark, content, ok, cancel}) {
+        setModal(btnElement, modalName, {title, dark, content, ok, cancel, callback}) {
             if (document.getElementById("modal-" + modalName) == null) {
                 createModal(modalName, title, dark, content, ok, cancel);
             }
@@ -121,6 +122,8 @@ export default function() {
 
             document.querySelector('[modal="' + btnElement + '"]').addEventListener('click', event => {
                 event.preventDefault();
+
+                if (callback != null) { callback(); }
 
                 $idModal.style.visibility = "visible";
                 handler.status = false;
