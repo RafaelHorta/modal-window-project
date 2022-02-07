@@ -1,8 +1,7 @@
 /* -- -- -- Modal Window -- -- -- */
 
-button, .modal-close { cursor: pointer; }
-.modal-container, .modal, .modal-header { display: flex; }
-.modal-container, .modal-header {
+.modal-container, .modal { display: flex; }
+.modal-container {
     align-items: center;
     justify-content: center;
 }
@@ -29,42 +28,32 @@ button, .modal-close { cursor: pointer; }
     transform: scale(0, 0);
 }
 .modal-header {
-    justify-content: space-between;
-    padding: 0 10px;
-    height: 50px;
+    padding: 10px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-}
-.modal-header span:first-child {
     font-weight: bold;
     font-size: 1rem;
+    text-align: left;
     color: #5a5a5a;
-}
-.modal-close {
-    width: 30px;
-    height: 30px;
-    font-weight: bold;
-    line-height: 35px;
-    background-color: #c44c4a;
-    color: #ffffff;
-    border-radius: 50%;
 }
 .modal-body {
     text-align: center;
     padding: 20px 30px;
 }
+.modal-btn-container { padding-top: 20px; }
 .modal-button-ok, .modal-button-cancel {
     color: #FFFFFF;
     padding: 10px 15px;
     margin: 0 5px;
     text-decoration: none;
+    cursor: pointer;
     border-radius: 3px;
     border: none;
     transition: .3s ease all;
 }
-.modal-button-ok { background-color: #4cac4c; }
-.modal-button-ok:hover { background-color: #67cc67; }
-.modal-button-cancel { background-color: #c04f4f; }
-.modal-button-cancel:hover { background-color: #ce6c6c; }
+.modal-button-ok { background-color: #6aac4c; }
+.modal-button-ok:hover { background-color: #84cc67; }
+.modal-button-cancel { background-color: #858585; }
+.modal-button-cancel:hover { background-color: #acacac; }
 
 /* - - - Modal Window Dark - - - */
 

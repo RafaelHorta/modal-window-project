@@ -1,54 +1,45 @@
-import Modals from "./modals.min.js";
+import Modals from "./modals.js";
 
 document.addEventListener('DOMContentLoaded', () => {
 
     const modal = Modals();
-    const $tmpForm = document.getElementById('tmp-form').innerHTML;
+    const $response = document.getElementById('response');
 
-    modal.setModal('normal', 'normal', {
-        title: 'Name Modal',
-        content: 'Normal Text',
-        cancel: {}
-    });
-
-    modal.setModal('normal-dark', 'normal-dark', {
-        title: 'Name Modal',
-        content: 'Normal Dark Text',
-        dark: true,
-        ok: {
-            callback() {
-                modal.closeModal('normal-dark');
-            }
-        }
-    });
-
-    modal.setModal('html-content', 'html-content', {
-        title: 'Name Modal',
-        content: $tmpForm
-    });
-
-    modal.setModal('html-content-dark', 'html-content-dark', {
-        title: 'Name Modal',
-        dark: true,
-        content: $tmpForm
-    });
-
-    modal.setModal('link', 'link', {
-        content: "Normal Modal Link",
-        ok: {
-            text: "Yes",
-            callback() {
-                modal.closeModal('link');
-                modal.openModal('new', {
-                    dark: true,
-                    content: "I'm new modal",
-                    cancel: {}
-                });
+    modal.clickModal('normal', 'open', {
+        title: 'Normal',
+        content: 'Normal Modal',
+        onOk: {
+            do(e) {
+                $response.innerText = "Ok Normal";
+                modal.closeModal('open');
             }
         },
-        cancel: {
-            text: "No"
+        onCancel: {
+            do(e) {
+                $response.innerText = "Cancel Normal";
+            }
         }
+    }, function() {
+        $response.innerText = "Opening Ok Normal";
+    });
+
+    modal.clickModal('normal-dark', 'login', {
+        title: "Dark Normal",
+        dark: true,
+        form: true,
+        content: '#tmp-form',
+        onOk: {
+            do(e) {
+                modal.closeModal('open');
+            }
+        },
+        onCancel: {
+            do(e) {
+                $response.innerText = "Cancel Normal Dark";
+            }
+        }
+    }, function() {
+        $response.innerText = "Opening Ok Dark Normal";
     });
 
 });

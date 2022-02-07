@@ -2,19 +2,24 @@ export default function() {
 
     const $body = document.querySelector('body');
 
-    let handler = {
-        ok: null,
-        cancel: null,
-        status: false
-    };
+    // - - - Open Modal Window - - -
+
+    function openingModal(modal) {
+        modal.style.visibility = "visible";
+
+        setTimeout(() => {
+            modal.querySelector('.modal').style.transform = "scale(1,1)";
+        }, 100);
+    }
 
     // - - - Close Modal Window - - -
 
-    function closingModal($modal) {
-        $modal.querySelector('.modal').style.transform = "scale(0,0)";
+    function closingModal(modal) {
+        modal.querySelector('.modal').style.transform = "scale(0,0)";
 
         setTimeout(() => {
-            $modal.style.visibility = "hidden";
+            modal.style.visibility = "hidden";
+            modal.remove();
         }, 500);
     }
 
@@ -24,120 +29,118 @@ export default function() {
         title = (title != null) ? title : "";
         dark = (dark == true) ? "modal-dark" : "";
 
-        let $templateModal = `
+        let $tmpBtnOk = "", $tmpBtnCancel = "";
+
+        if (typeof ok !== "undefined") {
+            $tmpBtnOk = `
+                <button type="button" class="modal-button-ok" id="ok-${modalName}">
+                    ${(ok.text) ? ok.text : "Acept"}
+                </button>`
+            ;
+        }
+        if (typeof cancel !== "undefined") {
+            $tmpBtnCancel = `
+                <button type="button" class="modal-button-cancel" id="cancel-${modalName}">
+                    ${(cancel.text) ? cancel.text : "Cancel"}
+                </button>`
+            ;
+        }
+        if (content[0] === "#") {
+            content = document.querySelector(content).innerHTML;
+        }
+
+        const $templateModal = `
             <div class="modal-container" id="modal-${modalName}">
                 <div class="modal ${dark}">
                     <div class="modal-header">
-                        <span>${title}</span>
-                        <span class="modal-close">
-                            <i class="fas fa-times"></i>
-                        </span>
+                        ${title}
                     </div>
-                    <div class="modal-body">
+                    <form class="modal-body" id="frm-${modalName}" autocomplete="off">
                         ${content}
-                    </div>
+                        <div class="modal-btn-container">
+                            ${$tmpBtnOk}
+                            ${$tmpBtnCancel}
+                        </div>
+                    </form>
                 </div>
             </div>
         `;
 
         $body.insertAdjacentHTML('beforeend', $templateModal);
+    }
 
-        let $getModal = document.getElementById('modal-' + modalName);
+    // - - - Action to Cancel Button
 
-        if (typeof ok !== "undefined" || typeof cancel !== "undefined") {
+    function onBtnCancel(modal, modalName, btnCancel) {
+        const $btnCancelModal = document.getElementById("cancel-" + modalName);
 
-            const $containerButtons = document.createElement('div');
-            $containerButtons.style.paddingTop = "20px";
+        if (btnCancel.text != null) $btnCancelModal.innerText = btnCancel.text;
 
-            if (typeof ok !== "undefined") {
-                const $btnOk = document.createElement('button');
+        $btnCancelModal.onclick = function(event) {
+            if (btnCancel.do != null) btnCancel.do(event);
 
-                $btnOk.setAttribute('type', 'button');
-                $btnOk.innerText = (ok.text != null && ok.text != "") ? ok.text : "OK";
-                $btnOk.classList.add('modal-button-ok');
+            closingModal(modal);
+        }
+    }
 
-                $btnOk.addEventListener('click', () => {
-                    if (ok.callback != null && handler.status) { handler.ok(); }
-                    else if (ok.callback != null && handler.status == false) { ok.callback(); }
-                });
+    // - - - Action to OK Button
 
-                $containerButtons.appendChild($btnOk);
+    function onBtnOk(modalName, btnOk, frm) {
+        const $btnOkModal = document.getElementById("ok-" + modalName);
+
+        if (btnOk.text != null) $btnOkModal.innerText = btnOk.text;
+
+        if (frm != '') {
+            $btnOkModal.type = 'submit';
+            frm.onsubmit = function(event) {
+                event.preventDefault();
+
+                if (btnOk.do != null) btnOk.do(event);
             }
-            if (typeof cancel !== "undefined") {
-                const $btnCancel = document.createElement('button');
-
-                $btnCancel.setAttribute('type', 'button');
-                $btnCancel.innerText = (cancel.text != null && cancel.text != "") ? cancel.text : "Cancel";
-                $btnCancel.classList.add('modal-button-cancel');
-
-                $btnCancel.addEventListener('click', () => {
-                    if (cancel.callback != null && handler.status) { handler.cancel(); }
-                    else if (cancel.callback != null && handler.status == false) { cancel.callback(); }
-
-                    closingModal($getModal);
-                });
-
-                $containerButtons.appendChild($btnCancel);
+        } else {
+            $btnOkModal.type = 'button';
+            $btnOkModal.onclick = function(event) {
+                if (btnOk.do != null) btnOk.do(event);
             }
-
-            $getModal.querySelector('.modal-body').appendChild($containerButtons);
         }
 
-        $getModal.querySelector('.modal-close').addEventListener('click', () => {
-            closingModal($getModal);
-        });
     }
 
     return {
 
         // - - - Open Modal - - -
 
-        openModal(modalName, {title, dark, content, ok, cancel, callback}) {
-            if (document.getElementById("modal-" + modalName) == null) {
-                createModal(modalName, title, dark, content, ok, cancel);
+        openModal(modal, {title, dark, form, content, onOk, onCancel}, preOpen = null) {
+            if (document.getElementById("modal-" + modal) == null) {
+                createModal(modal, title, dark, content, onOk, onCancel);
             }
+            if (preOpen != null) preOpen();
 
-            const $idModal = document.getElementById("modal-" + modalName);
+            const $modalWindow = document.getElementById("modal-" + modal);
+            const $frm = (form != null && form) ? document.getElementById('frm-' + modal) : "";
 
-            handler.status = true;
-            if (ok != null && ok.callback != null) { handler.ok = ok.callback; }
-            if (cancel != null && cancel.callback != null) { handler.cancel = cancel.callback; }
-            if (callback != null) { callback(); }
+            if (onOk != null) onBtnOk(modal, onOk, $frm);
+            if (onCancel != null) onBtnCancel($modalWindow, modal, onCancel);
 
-            $idModal.style.visibility = "visible";
-
-            setTimeout(() => {
-                $idModal.querySelector('.modal').style.transform = "scale(1,1)";
-            }, 50);
+            openingModal($modalWindow);
         },
 
-        // - - - Set Modal - - -
+        // - - - Click Modal - - -
 
-        setModal(btnElement, modalName, {title, dark, content, ok, cancel, callback}) {
-            if (document.getElementById("modal-" + modalName) == null) {
-                createModal(modalName, title, dark, content, ok, cancel);
-            }
+        clickModal(btn, modal, {title, dark, form, content, onOk, onCancel}, preOpen = null) {
+            document.querySelector('[modal="' + btn + '"]').addEventListener('click', e => {
+                e.preventDefault();
 
-            const $idModal = document.getElementById("modal-" + modalName);
-
-            document.querySelector('[modal="' + btnElement + '"]').addEventListener('click', event => {
-                event.preventDefault();
-
-                if (callback != null) { callback(); }
-
-                $idModal.style.visibility = "visible";
-                handler.status = false;
-
-                setTimeout(() => {
-                    $idModal.querySelector('.modal').style.transform = "scale(1,1)";
-                }, 50);
+                this.openModal(modal, {title, dark, content, form, onOk, onCancel}, preOpen);
             });
         },
 
         // - - - Close Modal
 
-        closeModal(idModal) {
-            closingModal(document.getElementById('modal-' + idModal));
+        closeModal(modal, preClose = null) {
+            if (preClose != null) preClose();
+
+            closingModal(document.getElementById('modal-' + modal));
         }
     }
 }

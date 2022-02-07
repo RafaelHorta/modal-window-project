@@ -4,10 +4,10 @@ body { font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-s
 /* -- -- -- Forms -- -- -- */
 
 .form { max-width: 550px; }
-.form .input { margin-bottom: 20px; }
 .input {
     width: 100%;
     padding: 10px;
+    margin-bottom: 10px;
 }
 
 /* -- -- -- Buttons -- -- -- */
