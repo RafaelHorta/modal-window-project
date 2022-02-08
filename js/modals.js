@@ -53,7 +53,8 @@ export default function() {
             <div class="modal-container" id="modal-${modalName}">
                 <div class="modal ${dark}">
                     <div class="modal-header">
-                        ${title}
+                        <span>${title}</span>
+                        <button type="button" class="close-modal" id="btn-close">X</button>
                     </div>
                     <form class="modal-body" id="frm-${modalName}" autocomplete="off">
                         ${content}
@@ -118,6 +119,10 @@ export default function() {
 
             const $modalWindow = document.getElementById("modal-" + modal);
             const $frm = (form != null && form) ? document.getElementById('frm-' + modal) : "";
+
+            document.getElementById('btn-close').onclick = function() {
+                closingModal($modalWindow);
+            }
 
             if (onOk != null) onBtnOk(modal, onOk, $frm);
             if (onCancel != null) onBtnCancel($modalWindow, modal, onCancel);
